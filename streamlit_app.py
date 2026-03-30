@@ -350,7 +350,7 @@ if st.sidebar.button("🚀 开始分析"):
 
             if st.session_state.iso_results:
                 live_df = pd.concat(st.session_state.iso_results, ignore_index=True)
-                stats_table_area.dataframe(live_df[['站点名称', '覆盖面积(km²)', 'API消耗', '测算时刻']],
+                stats_table_area.dataframe(live_df[['站点名称', '覆盖面积(km²)', 'POI锚点数', 'API消耗', '测算时刻']],
                                            height=400, width='stretch')
 
         st.session_state.map_renders += 1
@@ -393,8 +393,8 @@ if st.session_state.iso_results:
         zip_mem = BytesIO()
         with tempfile.TemporaryDirectory() as tmp_d:
             shp_path = os.path.join(tmp_d, "result_wgs84.shp")
-            exp_gdf = full_gdf[['站点名称', '覆盖面积(km²)', 'API消耗', '测算时刻', 'geometry']].copy()
-            exp_gdf.columns = ['Name', 'Area_km2', 'API_Cnt', 'TimeTag', 'geometry']
+            exp_gdf = full_gdf[['站点名称', '覆盖面积(km²)', 'POI锚点数', 'API消耗', '测算时刻', 'geometry']].copy()
+            exp_gdf.columns = ['Name', 'Area_km2', 'poi_cnt','API_Cnt', 'TimeTag', 'geometry']
             exp_gdf.to_file(shp_path, driver='ESRI Shapefile', encoding='utf-8')
             with zipfile.ZipFile(zip_mem, "w", zipfile.ZIP_DEFLATED) as zf:
                 for r, _, fs in os.walk(tmp_d):
